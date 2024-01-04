@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        ".spacemacs": "lisp",
+        "cstdint": "cpp"
+    }
+}
