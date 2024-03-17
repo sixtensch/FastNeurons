@@ -54,7 +54,7 @@ void training(LeNet5 *lenet, image *train_data, uint8 *train_label, int batch_si
 {
 	printf("Total images in training set: %d\n", total_size);
 	printf("Batchsize: %d\n", batch_size);
-
+    
 	for (int i = 0, percent = 0; i <= total_size - batch_size; i += batch_size)
 	{
 		printf("\nTraining on images: %d-%d\t", i, i + batch_size);
@@ -120,12 +120,12 @@ int main()
 		free(test_label);
 		system("pause");
 	}
-
+    
 	LeNet5 *lenet = (LeNet5 *)malloc(sizeof(LeNet5));
 	if (load(lenet, LENET_FILE))
 		Initial(lenet);
 	clock_t start = clock();
-
+    
 	//----------------------------------------------------------------------------------------
 	// Sai: When the entire training dataset is passed forward and backward through 
 	// the neural network one time, it is called one "epoch".
@@ -140,15 +140,15 @@ int main()
 	// printf("Calculating training accuracy...\n");
 	// int training_right = testing(lenet, train_data, train_label, COUNT_TRAIN);
 	// printf("Training accuracy: %f%%\n", training_right * 100.0 / COUNT_TRAIN);
-
+    
 	printf("Calculating test accuracy...\n");
 	int right = testing(lenet, test_data, test_label, COUNT_TEST);
 	printf("Testing: Correct predictions = %d (%.2f%%)\n", right, right/100.0);
 	int wrong = COUNT_TEST - right;
 	printf("Testing: Wrong predictions = %d (%.2f%%)\n", wrong, wrong/100.0);
 	//----------------------------------------------------------------------------------------
-
-	printf("Time taken: %u sec\n", (unsigned)(clock() - start)/CLOCKS_PER_SEC);
+    
+	printf("Time taken: %f sec\n", (double)(clock() - start)/CLOCKS_PER_SEC);
 	//save(lenet, LENET_FILE);
 	free(lenet);
 	free(train_data);

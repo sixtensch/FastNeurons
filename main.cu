@@ -3,6 +3,7 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <ctime>
 
 #include <cuda.h>
 #include <cuda_runtime.h>
@@ -423,16 +424,69 @@ void RunTest(Dataset datasetTrain, Dataset datasetTest)
 	printf("\n");
 }
 
+//~ Run and test
+
+static void RunCNN(Dataset datasetTrain, Dataset datasetTest)
+{
+	// Tweakable parameters
+	const int batchSize = 300;
+	const num alpha = (num)0.5;
+    
+    printf("Clocks per second: %u\n\n", (unsigned int)CLOCKS_PER_SEC);
+    
+    // Create the network structure
+	Network network = {};
+	NetworkCreateLeNet5Reference(&network);
+    
+	// Create an instance of the network
+	NetworkInstance instance;
+	NetworkInstanceCreate(&network, &instance, true);
+    
+	// Train the network
+    clock_t time = clock();
+	NetworkTrain(&network, &instance, &datasetTrain, batchSize, alpha);
+    time = clock() - time;
+    printf("Train time: %.3f seconds\n\n", ((double)time) / CLOCKS_PER_SEC);
+    
+	// Test the network
+    time = clock();
+	NetworkTest(&network, &instance, &datasetTest, true);
+    time = clock() - time;
+    printf("\nTest time: %.3f seconds\n", ((double)time) / CLOCKS_PER_SEC);
+    
+    // Run an extended test
+    int extendedCount = 20;
+    printf("\nRunning extended test");
+    time = clock();
+	for (int runs = 0; runs < extendedCount; runs++)
+	{
+        NetworkTrain(&network, &instance, &datasetTrain, batchSize + runs * 10, alpha * (float)(extendedCount - runs) / extendedCount);
+        printf(".");
+        fflush(stdout);
+	}
+    time = clock() - time;
+    double elapsed = ((double)time) / CLOCKS_PER_SEC;
+    printf("\nExtended time: %.3f seconds. Average: %.3f seconds.\n\n", elapsed, elapsed / extendedCount);
+    
+    // Test the network
+    NetworkTest(&network, &instance, &datasetTest, true);
+    
+	// Deinitialize
+	NetworkInstanceDestroy(&instance);
+	NetworkDestroy(&network);
+}
+
+static void RunReference(Dataset datasetTrain, Dataset datasetTest)
+{
+    
+}
+
 
 
 //~ Entry point
 
 int main()
 {
-	// Tweakable parameters
-	const int batchSize = 300;
-	const num alpha = (num)0.5;
-    
 	// Import data
 	Dataset datasetTrain;
 	Dataset datasetTest;
@@ -441,37 +495,7 @@ int main()
     
 	//RunTest(datasetTrain, datasetTest);
     
-	// Create the network structure
-	Network network = {};
-	//NetworkCreateLeNet5Reference(&network);
-	NetworkCreateLeNet5Real(&network);
-	//NetworkCreateSimple(&network);
-    
-	// Create an instance of the network
-	NetworkInstance instance;
-	NetworkInstanceCreate(&network, &instance, true);
-    
-	// Train the network
-	NetworkTrain(&network, &instance, &datasetTrain, batchSize, alpha);
-    
-	// Test the network
-	NetworkTest(&network, &instance, &datasetTest, true);
-    
-    // Run an extended test
-    printf("\n\nRunning extended test");
-	for (int runs = 0; runs < 10; runs++)
-	{
-        NetworkTrain(&network, &instance, &datasetTrain, batchSize + runs * 10, alpha * (20 - runs) / 20.0f);
-        printf(".");
-        fflush(stdout);
-	}
-    
-    // Test the network
-    printf("\n");
-    NetworkTest(&network, &instance, &datasetTest, true);
-    
-	// Deinitialize
-	NetworkInstanceDestroy(&instance);
-	NetworkDestroy(&network);
+    RunCNN(datasetTrain, datasetTest);
+	
 	return 0;
 }
