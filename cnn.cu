@@ -868,35 +868,9 @@ __global__ void FullyConnectBackwardWeights(num* input, num* outErrors, num* wei
 	weightDeltas[blockIdx.x +
                  threadIdx.x * gridDim.x +
                  blockIdx.y * networkSize] += a * b;
-    
-	//weightDeltas[threadIdx.x +
-	//	blockIdx.x * blockDim.x +
-	//	blockIdx.y * networkSize] += a * b;
 }
 
 
-//void test()
-//{
-//for (in : inputs)
-//{
-//for (out : outputs)
-//{
-//for (ex : errors[out].x)
-//{
-//for (ey : errors[out].y)
-//{
-//for (wx : weights[in][out].x)
-//{
-//for (wy : weights[in][out].y)
-//{
-//errors[in][ex + wx][ey + wy] += errors[out][ex][ey] * weights[in][out][wx][wy];
-//}
-//}
-//}
-//}
-//}
-//}
-//}
 
 //~ Misc kernels
 

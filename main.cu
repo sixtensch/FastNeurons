@@ -476,11 +476,6 @@ static void RunCNN(Dataset datasetTrain, Dataset datasetTest)
 	NetworkDestroy(&network);
 }
 
-static void RunReference(Dataset datasetTrain, Dataset datasetTest)
-{
-    
-}
-
 
 
 //~ Entry point
