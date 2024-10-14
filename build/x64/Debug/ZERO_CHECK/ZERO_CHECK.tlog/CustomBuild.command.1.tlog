@@ -1,0 +1,10 @@
+^C:\DEV\CPP\FASTNEURONS\BUILD\CMAKEFILES\13F583DD2BE27B05EF0BB5C9B80ADB9B\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/dev/cpp/FastNeurons -BC:/dev/cpp/FastNeurons/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/dev/cpp/FastNeurons/build/FastNeurons.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -1,0 +1,10 @@
+^C:\DEV\CPP\FASTNEURONS\SOURCE\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/dev/cpp/FastNeurons -BC:/dev/cpp/FastNeurons/build --check-stamp-file C:/dev/cpp/FastNeurons/build/source/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
