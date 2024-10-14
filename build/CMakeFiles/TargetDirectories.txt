@@ -1,0 +1,4 @@
+C:/dev/cpp/FastNeurons/build/CMakeFiles/ALL_BUILD.dir
+C:/dev/cpp/FastNeurons/build/CMakeFiles/ZERO_CHECK.dir
+C:/dev/cpp/FastNeurons/build/source/CMakeFiles/FastNeurons.dir
+C:/dev/cpp/FastNeurons/build/test/CMakeFiles/FastNeuronsTest.dir
